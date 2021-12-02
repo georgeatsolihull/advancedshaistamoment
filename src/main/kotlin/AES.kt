@@ -211,7 +211,7 @@ fun decrypt() {
     }
 
     println("\n\n\nDone!")
-    println("The decrypted message is \"$decrypted\"")
+    println("The decrypted message is \"${decrypted.trim()}\"")
     for (entry in table) {
         println(entry.value)
     }
