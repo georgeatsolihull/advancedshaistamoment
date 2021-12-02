@@ -12,12 +12,12 @@ fun main() {
     decrypt()
 }
 
-fun encrypt() {
-    var table = HashMap<Int, MutableList<Char>>()
+fun getTable(message: String): HashMap<Int, MutableList<Char>> {
+    val table = HashMap<Int, MutableList<Char>>()
 
     // Put characters into the table
     var curr = 1
-    for (char in messageEn) {
+    for (char in message) {
         if (table[curr]?.size == maxColumns) curr++
         if (table[curr] == null) table[curr] = mutableListOf()
 
@@ -31,6 +31,12 @@ fun encrypt() {
             entry.value.add('*')
         }
     }
+
+    return table
+}
+
+fun encrypt() {
+    var table = getTable(messageEn)
 
     println("Performing an AES on \"$messageEn\"")
     for (entry in table) {
@@ -116,24 +122,7 @@ fun encrypt() {
 }
 
 fun decrypt() {
-    var table = HashMap<Int, MutableList<Char>>()
-
-    // Put characters into the table
-    var curr = 1
-    for (char in messageDe) {
-        if (table[curr]?.size == maxColumns) curr++
-        if (table[curr] == null) table[curr] = mutableListOf()
-
-        if (char == ' ') table[curr]?.add('*')
-        else table[curr]?.add(char)
-    }
-
-    // Make sure all is the correct length
-    for (entry in table) {
-        while (entry.value.size != maxColumns) {
-            entry.value.add('*')
-        }
-    }
+    var table = getTable(messageDe)
 
     println("Performing an decryption on \"$messageDe\"")
     for (entry in table) {
